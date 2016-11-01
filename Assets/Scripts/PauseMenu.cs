@@ -36,7 +36,6 @@ public class PauseMenu : MonoBehaviour {
 	    */
         if (Input.GetButtonUp("Cancel"))
         {
-            isPaused = true;
             anim.SetTrigger("Pause");
             //TODO: Send a "Pause" message to all GameObjects with a pause funtion
         }
@@ -44,9 +43,14 @@ public class PauseMenu : MonoBehaviour {
 
 	public void Resume()
 	{
-		isPaused = false;
+        Time.timeScale = 1f;
         anim.SetTrigger("Resume");
         //TODO: Send a "Resume" message to all GameObjects with a pause funtion
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
     }
 
     public void Controls()
@@ -58,4 +62,14 @@ public class PauseMenu : MonoBehaviour {
 	{
 		SceneManager.LoadScene(mainMenu);
 	}
+
+    IEnumerator onPause()
+    {
+        float i;
+        for (i = 0f; i <= 1f; i += 0.05f)
+        {
+            transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, i);
+            yield return null;
+        }
+    }
 }

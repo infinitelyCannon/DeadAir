@@ -19,7 +19,7 @@ public class Interact : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        pause = GameObject.FindGameObjectWithTag("PausePanel");
+        //pause = GameObject.FindGameObjectWithTag("PausePanel");
         anim = GetComponent<Animator>();
         spawnPoint = transform.Find("SpawnPoint").gameObject;
         sound = GetComponent<AudioSource>();
