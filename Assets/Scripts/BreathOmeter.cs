@@ -18,12 +18,12 @@ public class BreathOmeter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             CancelInvoke("Rise");
             InvokeRepeating("Drain", 0.0f, 0.01f);
         }
-        else if(Input.GetButtonUp("Fire2"))
+        else if(Input.GetKeyUp(KeyCode.X))
         {
             CancelInvoke("Drain");
             InvokeRepeating("Rise", 0.0f, 0.01f);

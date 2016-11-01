@@ -7,12 +7,14 @@ public class Candy : MonoBehaviour {
 
     Rigidbody2D rigidBody;
     AudioSource sound;
+    GameObject player;
 
 	// Use this for initialization
 	void Start () {
         rigidBody = GetComponent<Rigidbody2D>();
         sound = GetComponent<AudioSource>();
-	}
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,7 +25,7 @@ public class Candy : MonoBehaviour {
     {
         if (rigidBody.velocity.y < 0f)
         {
-            rigidBody.AddForce(new Vector2(launchSpeed, 0f));
+            rigidBody.AddForce(new Vector2(launchSpeed, 0f) * player.transform.localScale.x);
         }
 
         if (rigidBody.velocity.y >= 0f)

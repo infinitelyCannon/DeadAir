@@ -46,7 +46,7 @@ public class Interact : MonoBehaviour {
             {
                 anim.SetBool("isThrowing", true);
                 canThrow = false;
-                Invoke("throwCandy", 0.5f);
+                //Invoke("throwCandy", 0.5f);
                 Invoke("ResetThrow",0.5f);
             }
         }
@@ -85,7 +85,8 @@ public class Interact : MonoBehaviour {
 
     public void throwCandy()
     {
-        Instantiate(candy, spawnPoint.transform.position, Quaternion.identity);
+        //Instantiate(candy, spawnPoint.transform.position, Quaternion.identity);
+        Debug.Log("Thrown");
     }
 
     public void Step()
