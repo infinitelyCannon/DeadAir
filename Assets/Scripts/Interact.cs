@@ -7,7 +7,9 @@ public class Interact : MonoBehaviour {
     public GameObject candy;
 
     [HideInInspector]
-    public bool canInteract = false;        // Is the player in front of an interactable object (i.e. door, oven, etc.)
+    public bool canInteract = false;        // Is the player in front of an interactable object (i.e. sink, oven, etc.)
+    [HideInInspector]
+    public bool canLeave = false;           // Is the player in front of a door he can leave through (DON'T TOUCH. Controlled by the doors themselves)
     bool isHiding = false;
     GameObject pause;
     Animator anim;
@@ -30,6 +32,7 @@ public class Interact : MonoBehaviour {
         // Can only move if the game isn't paused and the Player isn't hiding.
         if (!isPaused() && !isHiding)
         {
+            // This if/else gate determines whether the player is moving or not.
             if (Input.GetButton("Horizontal"))
             {
                 velX = Input.GetAxisRaw("Horizontal") * speed;
@@ -42,6 +45,8 @@ public class Interact : MonoBehaviour {
                 gameObject.transform.localScale = Vector3.one;
                 anim.SetBool("isMoving", false);
             }
+
+            // This if statement determines when the player throws the candy
             if (Input.GetKeyUp(KeyCode.Z) && canThrow)
             {
                 anim.SetBool("isThrowing", true);
@@ -49,16 +54,18 @@ public class Interact : MonoBehaviour {
                 //Invoke("throwCandy", 0.5f);
                 Invoke("ResetThrow",0.5f);
             }
-        }
-        if (Input.GetKeyUp(KeyCode.UpArrow) && canInteract && !isHiding)
-        {
-            Debug.Log("Can Interact!");
-            isHiding = true;
-        }
-        if (Input.GetKeyUp(KeyCode.DownArrow) && isHiding)
-        {
-            Debug.Log("And we're out!");
-            isHiding = false;
+
+            // These two if statements control when the player can enter or leave a hiding spot
+            if (Input.GetKeyUp(KeyCode.UpArrow) && canInteract && !isHiding)
+            {
+                Debug.Log("Can Interact!");
+                isHiding = true;
+            }
+            if (Input.GetKeyUp(KeyCode.DownArrow) && isHiding)
+            {
+                Debug.Log("And we're out!");
+                isHiding = false;
+            }
         }
 	}
 
@@ -85,8 +92,8 @@ public class Interact : MonoBehaviour {
 
     public void throwCandy()
     {
-        //Instantiate(candy, spawnPoint.transform.position, Quaternion.identity);
-        Debug.Log("Thrown");
+        Instantiate(candy, spawnPoint.transform.position, Quaternion.identity);
+        //Debug.Log("Thrown");
     }
 
     public void Step()

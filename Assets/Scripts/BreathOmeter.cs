@@ -13,7 +13,7 @@ public class BreathOmeter : MonoBehaviour {
 	void Start () {
         slider = GetComponent<Slider>();
         sound = GetComponent<AudioSource>();
-        slider.onValueChanged.AddListener(delegate { valCheck(); });
+        //slider.onValueChanged.AddListener(delegate { valCheck(); });
 	}
 	
 	// Update is called once per frame
@@ -46,7 +46,7 @@ public class BreathOmeter : MonoBehaviour {
         }
     }
 
-    void valCheck()
+    public void valCheck()
     {
         if (slider.value <= 0 && canGasp)
         {

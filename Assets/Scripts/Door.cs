@@ -1,17 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum Location
+{
+    bathroom,kitchen
+}
+
 public class Door : MonoBehaviour {
 
-    //GameObject player;
+    public Location target;
 
+    GameObject player, cam;
     bool isTriggered = false;
     GameObject pause;
+    Vector3[] Rooms = new Vector3[] { new Vector3(0.83f,-0.63f,0), new Vector3(0.8f, 4.23f,0) };
+    Vector3[] camRooms = new Vector3[] { new Vector3(-1.1f,4.86f,-10) };
 
-	// Use this for initialization
-	void Start () {
-        //player = GameObject.FindGameObjectWithTag("Player");
-        pause = GameObject.FindGameObjectWithTag("PausePanel");
+    // Use this for initialization
+    void Start () {
+        player = GameObject.FindGameObjectWithTag("Player");
+        //pause = GameObject.FindGameObjectWithTag("PausePanel");
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
 	}
 	
 	// Update is called once per frame
@@ -20,22 +29,32 @@ public class Door : MonoBehaviour {
         {
             if (Input.GetKeyUp(KeyCode.UpArrow) && isTriggered)
             {
-                Debug.Log("You interacted");
+                Teleport();
                 //Run this object's opening animation
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow) && isTriggered)
-            {
-                Debug.Log("Byeee!");
-                //Run the animation again
             }
         }
 	}
+
+    void Teleport()
+    {
+        switch (target)
+        {
+            case Location.bathroom:
+                cam.GetComponent<CameraFollow>().JumpToRoom(camRooms[0]);
+                player.transform.position = Rooms[1];
+                break;
+            case Location.kitchen:
+                break;
+            default:
+                break;
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<Interact>().canInteract = true;
+            other.gameObject.GetComponent<Interact>().canLeave = true;
             isTriggered = true;
         }
     }
@@ -44,7 +63,7 @@ public class Door : MonoBehaviour {
     {
         if (other.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<Interact>().canInteract = false;
+            other.gameObject.GetComponent<Interact>().canLeave = false;
             isTriggered = false;
         }
     }
