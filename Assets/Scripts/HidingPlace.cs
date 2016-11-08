@@ -7,12 +7,14 @@ public class HidingPlace : MonoBehaviour {
 
     bool isTriggered = false;
     GameObject pause;
+    Animator anim;
 
     // Use this for initialization
     void Start()
     {
         //player = GameObject.FindGameObjectWithTag("Player");
         //pause = GameObject.FindGameObjectWithTag("PausePanel");
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -22,13 +24,13 @@ public class HidingPlace : MonoBehaviour {
         {
             if (Input.GetKeyUp(KeyCode.UpArrow) && isTriggered)
             {
-                Debug.Log("You interacted");
-                //Run this object's opening animation
+                //Debug.Log("You interacted");
+                anim.SetBool("isHiding", true);
             }
             if (Input.GetKeyDown(KeyCode.DownArrow) && isTriggered)
             {
-                Debug.Log("Byeee!");
-                //Run the animation again
+                //Debug.Log("Byeee!");
+                anim.SetBool("isHiding", false);
             }
         }
     }

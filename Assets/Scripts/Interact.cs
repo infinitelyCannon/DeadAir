@@ -16,6 +16,7 @@ public class Interact : MonoBehaviour {
     bool canThrow = true;
     GameObject spawnPoint;
     AudioSource sound;
+    SpriteRenderer visibility;
 
     float velX, velY;
 
@@ -25,6 +26,7 @@ public class Interact : MonoBehaviour {
         anim = GetComponent<Animator>();
         spawnPoint = transform.Find("SpawnPoint").gameObject;
         sound = GetComponent<AudioSource>();
+        visibility = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
@@ -58,16 +60,18 @@ public class Interact : MonoBehaviour {
             // These two if statements control when the player can enter or leave a hiding spot
             if (Input.GetKeyUp(KeyCode.UpArrow) && canInteract && !isHiding)
             {
-                Debug.Log("Can Interact!");
+                //Debug.Log("Can Interact!");
+                visibility.enabled = false;
                 isHiding = true;
             }
-            if (Input.GetKeyUp(KeyCode.DownArrow) && isHiding)
-            {
-                Debug.Log("And we're out!");
-                isHiding = false;
-            }
         }
-	}
+        if (Input.GetKeyUp(KeyCode.DownArrow) && isHiding)
+        {
+            //Debug.Log("And we're out!");
+            visibility.enabled = true;
+            isHiding = false;
+        }
+    }
 
     bool isPaused()
     {

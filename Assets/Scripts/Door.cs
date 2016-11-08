@@ -13,8 +13,8 @@ public class Door : MonoBehaviour {
     GameObject player, cam;
     bool isTriggered = false;
     GameObject pause;
-    Vector3[] Rooms = new Vector3[] { new Vector3(0.83f,-0.63f,0), new Vector3(0.8f, 4.23f,0) };
-    Vector3[] camRooms = new Vector3[] { new Vector3(-1.1f,4.86f,-10) };
+    Vector3[] Rooms = new Vector3[] { new Vector3(0.83f,-0.63f,0), new Vector3(0.8f, 4.23f,0), new Vector3(-7.852f,12.336f,0) };
+    Vector3[] camRooms = new Vector3[] {new Vector3(0,0,-10), new Vector3(-1.1f,4.86f,-10), new Vector3(-9.66f, 12.93f,-10) };
 
     // Use this for initialization
     void Start () {
@@ -40,10 +40,12 @@ public class Door : MonoBehaviour {
         switch (target)
         {
             case Location.bathroom:
-                cam.GetComponent<CameraFollow>().JumpToRoom(camRooms[0]);
+                cam.GetComponent<CameraFollow>().JumpToRoom(camRooms[1]);
                 player.transform.position = Rooms[1];
                 break;
             case Location.kitchen:
+                cam.GetComponent<CameraFollow>().JumpToRoom(camRooms[2]);
+                player.transform.position = Rooms[2];
                 break;
             default:
                 break;
