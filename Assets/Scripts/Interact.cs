@@ -17,12 +17,14 @@ public class Interact : MonoBehaviour {
     GameObject spawnPoint;
     AudioSource sound;
     SpriteRenderer visibility;
+    float swapSpeed;
 
     float velX, velY;
 
 	// Use this for initialization
 	void Start () {
-        //pause = GameObject.FindGameObjectWithTag("PausePanel");
+        pause = GameObject.FindGameObjectWithTag("PausePanel");
+        swapSpeed = speed;
         anim = GetComponent<Animator>();
         spawnPoint = transform.Find("SpawnPoint").gameObject;
         sound = GetComponent<AudioSource>();
@@ -53,8 +55,9 @@ public class Interact : MonoBehaviour {
             {
                 anim.SetBool("isThrowing", true);
                 canThrow = false;
+                speed = 0;
                 //Invoke("throwCandy", 0.5f);
-                Invoke("ResetThrow",0.5f);
+                //Invoke("ResetThrow",0.5f);
             }
 
             // These two if statements control when the player can enter or leave a hiding spot
@@ -75,7 +78,7 @@ public class Interact : MonoBehaviour {
 
     bool isPaused()
     {
-        return false; //pause.GetComponent<PauseMenu>().isPaused;
+        return pause.GetComponent<PauseMenu>().isPaused;
     }
 
     void Hide()
@@ -88,10 +91,11 @@ public class Interact : MonoBehaviour {
         //TODO: Have the Player do the leave animation
     }
 
-    void ResetThrow()
+    public void ResetThrow()
     {
         canThrow = true;
         anim.SetBool("isThrowing", false);
+        speed = swapSpeed;
     }
 
     public void throwCandy()
