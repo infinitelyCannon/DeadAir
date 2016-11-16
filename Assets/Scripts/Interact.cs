@@ -3,9 +3,12 @@ using System.Collections;
 
 public class Interact : MonoBehaviour {
 
-    public float speed;                     // Speed of Character (for physics based movement)
+    public float speed;                     // Speed of Character (for physics based movement) 0.03
     public GameObject candy;
+    public float sprintSpeed;
 
+    [HideInInspector]
+    public PlayerLocation location;
     [HideInInspector]
     public bool canInteract = false;        // Is the player in front of an interactable object (i.e. sink, oven, etc.)
     [HideInInspector]
@@ -29,10 +32,16 @@ public class Interact : MonoBehaviour {
         spawnPoint = transform.Find("SpawnPoint").gameObject;
         sound = GetComponent<AudioSource>();
         visibility = GetComponent<SpriteRenderer>();
+        location = PlayerLocation.hall1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        //Ternary Operator to determine the player's speed.
+        //TODO: Have the artists create a run animation to implement. (Maybe a new sound effect too?)
+        //TODO: Change the script to make the Player move by physics in order to enforce the effect of brick walls and boundaries.
+        speed = (Input.GetKey(KeyCode.LeftShift) && canThrow) ? sprintSpeed : swapSpeed;
+
         // Can only move if the game isn't paused and the Player isn't hiding.
         if (!isPaused() && !isHiding)
         {
@@ -60,7 +69,7 @@ public class Interact : MonoBehaviour {
                 //Invoke("ResetThrow",0.5f);
             }
 
-            // These two if statements control when the player can enter or leave a hiding spot
+            // The next two if statements control when the player can enter or leave a hiding spot
             if (Input.GetKeyUp(KeyCode.UpArrow) && canInteract && !isHiding)
             {
                 //Debug.Log("Can Interact!");
@@ -110,6 +119,16 @@ public class Interact : MonoBehaviour {
         {
             sound.Play();
         }
+    }
+
+    void Pause()
+    {
+        anim.speed = 0;
+    }
+
+    void Resume()
+    {
+        anim.speed = 1;
     }
 
 }

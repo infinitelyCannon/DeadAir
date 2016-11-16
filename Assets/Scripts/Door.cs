@@ -19,7 +19,7 @@ public class Door : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
-        //pause = GameObject.FindGameObjectWithTag("PausePanel");
+        pause = GameObject.FindGameObjectWithTag("PausePanel");
         cam = GameObject.FindGameObjectWithTag("MainCamera");
 	}
 	
@@ -42,10 +42,12 @@ public class Door : MonoBehaviour {
             case Location.bathroom:
                 cam.GetComponent<CameraFollow>().JumpToRoom(camRooms[1]);
                 player.transform.position = Rooms[1];
+                player.GetComponent<Interact>().location = PlayerLocation.bathroom;
                 break;
             case Location.kitchen:
                 cam.GetComponent<CameraFollow>().JumpToRoom(camRooms[2]);
                 player.transform.position = Rooms[2];
+                player.GetComponent<Interact>().location = PlayerLocation.kitchen;
                 break;
             default:
                 break;
@@ -72,6 +74,6 @@ public class Door : MonoBehaviour {
 
     bool isPaused()
     {
-        return false; //pause.GetComponent<PauseMenu>().isPaused;
+        return pause.GetComponent<PauseMenu>().isPaused;
     }
 }

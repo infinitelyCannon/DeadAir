@@ -13,7 +13,7 @@ public class HidingPlace : MonoBehaviour {
     void Start()
     {
         //player = GameObject.FindGameObjectWithTag("Player");
-        //pause = GameObject.FindGameObjectWithTag("PausePanel");
+        pause = GameObject.FindGameObjectWithTag("PausePanel");
         anim = GetComponent<Animator>();
     }
 
@@ -55,6 +55,6 @@ public class HidingPlace : MonoBehaviour {
 
     bool isPaused()
     {
-        return false; //pause.GetComponent<PauseMenu>().isPaused;
+        return pause.GetComponent<PauseMenu>().isPaused;
     }
 }

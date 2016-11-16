@@ -5,19 +5,18 @@ using System.Collections;
 public class PauseMenu : MonoBehaviour {
 
 	public string levelSelect;
-
 	public string mainMenu;
-
     [HideInInspector]
     public bool isPaused = false;
-
 	public GameObject pauseMenuCanvas;
 
     Animator anim;
+    GameObject[] objectsToPause = new GameObject[1];
 
     void Start()
     {
         anim = GetComponent<Animator>();
+        objectsToPause[0] = GameObject.FindGameObjectWithTag("Player");
     }
 	
 	// Update is called once per frame
@@ -38,21 +37,32 @@ public class PauseMenu : MonoBehaviour {
         {
             anim.SetTrigger("Pause");
             //TODO: Send a "Pause" message to all GameObjects with a pause funtion
-            isPaused = true;
+            Pause();
         }
 	}
 
 	public void Resume()
 	{
-        //Time.timeScale = 1f;
+        int i;
+
         anim.SetTrigger("Resume");
-        //TODO: Send a "Resume" message to all GameObjects with a pause funtion
+        for (i = 0; i < objectsToPause.Length; i++)
+        {
+            objectsToPause[i].SendMessage("Resume");
+        }
+
         isPaused = false;
     }
 
     public void Pause()
     {
-        Time.timeScale = 0;
+        int i;
+
+        for (i = 0; i < objectsToPause.Length; i++)
+        {
+            objectsToPause[i].SendMessage("Pause");
+        }
+        isPaused = true;
     }
 
     public void Controls()
