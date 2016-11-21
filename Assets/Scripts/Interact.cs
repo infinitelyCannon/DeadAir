@@ -24,6 +24,8 @@ public class Interact : MonoBehaviour {
 
     float velX, velY;
 
+    Rigidbody2D rigidbody2d;
+
 	// Use this for initialization
 	void Start () {
         pause = GameObject.FindGameObjectWithTag("PausePanel");
@@ -33,10 +35,12 @@ public class Interact : MonoBehaviour {
         sound = GetComponent<AudioSource>();
         visibility = GetComponent<SpriteRenderer>();
         location = PlayerLocation.hall1;
+        rigidbody2d = GetComponent<Rigidbody2D>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        /*
         //Ternary Operator to determine the player's speed.
         //TODO: Have the artists create a run animation to implement. (Maybe a new sound effect too?)
         //TODO: Change the script to make the Player move by physics in order to enforce the effect of brick walls and boundaries.
@@ -67,6 +71,49 @@ public class Interact : MonoBehaviour {
                 speed = 0;
                 //Invoke("throwCandy", 0.5f);
                 //Invoke("ResetThrow",0.5f);
+            }
+
+            // The next two if statements control when the player can enter or leave a hiding spot
+            if (Input.GetKeyUp(KeyCode.UpArrow) && canInteract && !isHiding)
+            {
+                //Debug.Log("Can Interact!");
+                visibility.enabled = false;
+                isHiding = true;
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.DownArrow) && isHiding)
+        {
+            //Debug.Log("And we're out!");
+            visibility.enabled = true;
+            isHiding = false;
+        }
+        */
+    }
+
+    void FixedUpdate()
+    {
+        speed = (Input.GetKey(KeyCode.LeftShift) && canThrow) ? sprintSpeed : swapSpeed;
+
+        if (!isHiding)
+        {
+            if (Input.GetButton("Horizontal"))
+            {
+                float vel = Input.GetAxis("Horizontal") * speed;
+                rigidbody2d.velocity = new Vector2(vel, rigidbody2d.velocity.y);
+                gameObject.transform.localScale = new Vector3(Input.GetAxisRaw("Horizontal"), 1, 1);
+                anim.SetBool("isMoving", true);
+            }
+            else
+            {
+                gameObject.transform.localScale = Vector3.one;
+                anim.SetBool("isMoving", false);
+            }
+
+            if(Input.GetKeyUp(KeyCode.Z) && canThrow)
+            {
+                anim.SetBool("isThrowing", true);
+                canThrow = false;
+                speed = 0;
             }
 
             // The next two if statements control when the player can enter or leave a hiding spot

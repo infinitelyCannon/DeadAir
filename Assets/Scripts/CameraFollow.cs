@@ -49,7 +49,7 @@ public class CameraFollow : MonoBehaviour {
         rightBorder.transform.position = self.ScreenToWorldPoint(new Vector3(self.pixelWidth, self.pixelHeight / 2, self.nearClipPlane));
 
         // Trying out an alternative method of consantly snapping to the player's location to address the issue of the camera sliding off towards nowhere.
-        if (canMove())
+        if (!inRoom)
         {
             /*
             // only update lookahead pos if accelerating or changed direction
@@ -77,11 +77,19 @@ public class CameraFollow : MonoBehaviour {
 
     bool canMove()
     {
+        Vector3 rEdge, lEdge;
+        Vector3 futurePos = self.WorldToScreenPoint(newPos),
+                rBorder = new Vector3(futurePos.x + (self.pixelWidth / 2), futurePos.y, 0),
+                lBorder = new Vector3(futurePos.x - (self.pixelWidth / 2), futurePos.y, 0);
+
         if (inRoom) {return false;}
 
         if (target.gameObject.GetComponent<Interact>().location == PlayerLocation.hall1)
         {
-            if ((newPos.x >= HallEdges[1].x) || (newPos.x <= HallEdges[0].x))
+            lEdge = self.WorldToScreenPoint(HallEdges[0]);
+            rEdge = self.WorldToScreenPoint(HallEdges[1]);
+
+            if ((Mathf.Abs(Vector3.Distance(futurePos, rEdge)) <= self.pixelWidth / 2) || (Mathf.Abs(Vector3.Distance(futurePos, lEdge)) <= self.pixelWidth / 2))
             {
                 return false;
             }

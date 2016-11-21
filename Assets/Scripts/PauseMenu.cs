@@ -36,22 +36,28 @@ public class PauseMenu : MonoBehaviour {
         if (Input.GetButtonUp("Cancel"))
         {
             anim.SetTrigger("Pause");
+            Time.timeScale = 0;
+            /*
             //TODO: Send a "Pause" message to all GameObjects with a pause funtion
             Pause();
+            */
         }
 	}
 
 	public void Resume()
 	{
-        int i;
+        //int i;
 
         anim.SetTrigger("Resume");
+        Time.timeScale = 1;
+        /*
         for (i = 0; i < objectsToPause.Length; i++)
         {
             objectsToPause[i].SendMessage("Resume");
         }
 
         isPaused = false;
+        */
     }
 
     public void Pause()
